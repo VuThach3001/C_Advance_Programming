@@ -2,7 +2,7 @@
 
 ## Topic: The C99 Standard
 
-## Date: [Insert Date Here]  
+## Date: 13/10/2025
 
 ---
 
