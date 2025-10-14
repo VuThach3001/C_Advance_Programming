@@ -60,7 +60,13 @@ code
 into many numbers of sub-modules
   - Each individual module contributes to a specific critical function of the program
 
-**5. File linkage in Visual studio code**
+**5. How**
+- Programmers usually start designing a program by dividing the problem into easily managed sections
+- Each of these sections might be implemented as one or more functions
+- All functions from each section will usually live in a single file
+- The file contains the definition of each function
+  - Should create a header file for each of the C files
+  - Will have the same name as the C file
 
 ---
 
