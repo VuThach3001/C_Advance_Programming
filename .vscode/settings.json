@@ -2,5 +2,6 @@
     "files.associations": {
         "other.h": "c",
         "date.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/home/thach/Desktop/workspace/C_Advance_Programming/project/23_example"
 }
