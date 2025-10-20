@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "other.h": "c"
+        "other.h": "c",
+        "date.h": "c"
     }
 }
