@@ -46,6 +46,33 @@ Counter j, n;
 - Programs designed for portability often use typedef to create an alias for 4-byte integers, such as Integer
   - The alias Integer can be changed once in the program to make the program work on both systems
 
+**3. typedef vs. #define**
+- In many instances, a `typedef` statement can be equivalently substituted by the appropriate `#define` statement
+```c
+#define Counter int; // has the same results as using a typedef as in the previous slide
+```
+- We know that the `#define` is handled by the preprocessor
+- The `typedef` is handled by the C compiler
+  - Provides more flexibility when it comes to assigning names to derived data types
+- Remember, the `typedef` statement does not actually define a new type
+  - Only a new type name
+
+**4. Best practice**
+- Do not bother using `typedefs` for structs
+- All they do is save you writing the word `“struct”`, which is a clue that you probably shouldn’t be hiding anyway
+- Use typedefs for types that combine arrays, `structs`, `pointers`, or `functions`
+- Use `typedefs` for portable types
+  - When you need a type that’s at least 20-bits, make it a typedef
+    - When you port the code to different platforms, select the right `type`, `short`, `int`, `long`
+    - Making the change in just the `typedef`, rather than in every declaration
+- Use `typedefs` for casting
+  - A `typedef` can provide a simple name for a complicated type cast
+```c
+typedef int (*ptr_to_int_fun)(void);
+char * p;
+..... = (ptr_to_int_fun) p;
+```
+
 --- 
 
 ### Summary Section (Summary of Notes)
