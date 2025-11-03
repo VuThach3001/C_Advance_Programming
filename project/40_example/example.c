@@ -14,6 +14,21 @@ int main (void)
     printf ("Working with complex numbers:\n");
     printf ("Starting values: cx = %.2f%+.2fi cy = %.2f%.2fi\n", creal (cx), cimag (cx), creal (cy), cimag (cy));
 
+    double complex sum = cx + cy;
+    printf ("\nThe sum cx + cy = %.2f%+.2fi\n", creal (sum), cimag (sum));
+
+    double complex difference = cx - cy;
+    printf ("\nThe difference cx - cy = %.2f%+.2fi\n", creal (difference), cimag (difference));
+
+    double complex product = cx * cy;
+    printf ("\nThe product cx * cy = %.2f%+.2fi\n", creal (product), cimag (product));
+
+    double complex quotient = cx / cy;
+    printf ("\nThe quotient cx / cy = %.2f%+.2fi\n", creal (quotient), cimag (quotient));
+
+    double complex conjugate = conj (cx);
+    printf ("\nThe conjugate of cx = %.2f%+.2fi\n", creal (conjugate), cimag (conjugate));
+
 #endif
     return 0;
 }
