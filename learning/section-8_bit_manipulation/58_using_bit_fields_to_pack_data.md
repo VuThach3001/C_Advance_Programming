@@ -1,8 +1,8 @@
-# Section 7: Type Qualifiers
+# Section 8: Bit Manipulation
 
-## Topic: Using Bit Operators to pack data
+## Topic: Using Bit Fields to pack data
 
-## Date: 14/11/2025
+## Date: 16/11/2025
 
 ---
 

@@ -1,4 +1,4 @@
-# Section 7: Type Qualifiers
+# Section 8: Bit Manipulation
 
 ## Topic: Using Bit Operators to pack data
 
