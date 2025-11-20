@@ -1,22 +1,45 @@
-/*
-- This challenge will test your understanding of the common string I/O functions
-    - You must choose the correct function to use based on the requirements
-    (sometimes, there are multiple options)
-- Write a program that takes two command-line arguments
-    - The first is a character
-    - The second is a filename
-- The requirements of the program are that it should print only those lines in
-the file containing the given character
-    - Lines in a file are identified by a terminating '\n'
-    - Assume that no line is more than 256 characters long
-- You are required to use fgets() or getline() (or try both) for reading of the file
-    - Use puts to display the output
-*/
 #include <stdio.h>
+#include <stdlib.h>
 
-int main (void)
+#define BUF 256
+
+int has_ch (char ch, const char* line);
+
+int main (int argc, char* argv[])
 {
+    FILE* fp = NULL;
+    char ch = '\0';
+    char line[BUF];
 
+    if (argc != 3)
+    {
+        printf ("Usage: %s character filename\n", argv[0]);
+        exit (EXIT_FAILURE);
+    }
+
+    ch = argv[1][0];
+
+    if ((fp = fopen (argv[2], "r")) == NULL)
+    {
+        printf ("Can't open %s\n", argv[2]);
+        exit (EXIT_FAILURE);
+    }
+
+    while (fgets (line, BUF, fp) != NULL)
+    {
+        if (has_ch (ch, line))
+            fputs (line, stdout);
+    }
+
+    fclose (fp);
+    return 0;
+}
+
+int has_ch (char ch, const char* line)
+{
+    while (*line)
+        if (ch == *line++)
+            return 1;
 
     return 0;
 }
