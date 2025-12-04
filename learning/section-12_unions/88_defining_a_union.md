@@ -96,19 +96,19 @@ Memory size occupied by data : 20
   - an anonymous union is an unnamed member union of a structure or union
 ```c
 struct owner {
-char socsecurity[12];
+  char socsecurity[12];
 };
 struct leasecompany {
-char name[40];
-char headquarters[40];
+  char name[40];
+  char headquarters[40];
 };
 struct car_data {
-char make[15];
-int status; /* 0 = owned, 1 = leased */
-union {
-struct owner owncar;
-struct leasecompany leasecar;
-};
+  char make[15];
+  int status; /* 0 = owned, 1 = leased */
+  union {
+    struct owner owncar;
+    struct leasecompany leasecar;
+  };
 };
 ```
 - now, if flits is a car_data structure, we can use flits.owncar.socsecurity
@@ -117,26 +117,22 @@ struct leasecompany leasecar;
 - the use of a union enables you to define arrays that can be used to store elements of different data types
 ```c
 struct {
-char
-*name;
-enum symbolType type;
-union {
-int
-i;
-float f;
-char
-}
-c;
-data;
+  char *name;
+  enum symbolType type;
+  union {
+    int i;
+    float f;
+    char c;
+  }  data;
 } table [entries];
 ```
 - the above sets up an array called table, consisting of ‘entries’ elements
   - each element of the array contains a structure consisting of a character pointer called name, an enumeration member called type, and a union member called data
   - each data member of the array can contain either an int, a float, or a char
 - the member type might be used to keep track of the type of value stored in the member data
-  - you could assign it the value INTEGER if it contained an int
-  - FLOATING if it contained a float
-  - CHARACTER if it contained a char
+  - you could assign it the value `INTEGER` if it contained an int
+  - `FLOATING` if it contained a float
+  - `CHARACTER` if it contained a char
   - this information would enable you to know how to reference the particular data member of a particular array element
 
 
