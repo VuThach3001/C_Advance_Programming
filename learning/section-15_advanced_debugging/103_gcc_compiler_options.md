@@ -1,6 +1,6 @@
 # Section 15: Advanced Debugging, Analysis, and Compiler Opotions
 
-## Topic: Predefined Macros
+## Topic: GCC Compiler Options (Part 1)
 
 ## Date: 22/12/2025
 
