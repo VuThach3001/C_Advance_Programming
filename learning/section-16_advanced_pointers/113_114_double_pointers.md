@@ -18,36 +18,31 @@
 
 **1. Overview**
 - we have a good understanding of the concept of pointers (indirection)
-- we can create pointers to int, pointers to a char, pointers to structures, really any data type
+  - we can create pointers to `int`, pointers to a `char`, pointers to `structures`, really any data type
 - in this lecture, we will discuss the concept of pointers to other pointers
-- a form of multiple indirection, or a chain of pointers
+  - a form of multiple indirection, or a chain of pointers
 - we understand the distinction between the pointer itself and what it points to
-- this will help with understanding the concept of pointers to pointers
-- we now have to distinguish between the pointer, what it points to, and what the pointer that it points
-to points to
-- when a pointer holds the address of another pointer, this is known as a pointer-to-pointer or double
-pointer
-- in theory, we might also end up with pointers to pointers to pointers, or pointers to pointers to pointers to
-pointers
-- although triple and more pointers are hardly ever used and should not be
-- a pointer points to a location in memory and thus used to store the
-address of variables
-![alt text](image.png)
-- with a double pointer, the first pointer contains the address of the
-second pointer, which points to the location that contains the actual
-value
-![alt text](image-1.png)
+  - this will help with understanding the concept of pointers to pointers
+  - we now have to distinguish between the pointer, what it points to, and what the pointer that it points to points to
+- when a pointer **holds the address of another pointer**, this is known as a pointer-to-pointer or double pointer
+- in theory, we might also end up with pointers to pointers to pointers, or pointers to pointers to pointers to pointers
+  - although triple and more pointers are hardly ever used and should not be
+- a pointer points to a location in memory and thus used to store the address of variables
+
+  ![alt text](image.png)
+
+- with a double pointer, the first pointer contains the address of the second pointer, which points to the location that contains the actual value
+- 
+  ![alt text](image-1.png)
 
 **2. Syntax of a double pointer**
-- a variable that is a pointer to a pointer is declared by placing an additional
-asterisk in front of its name
-- two asterisks indicate that two levels of pointers are involved
+- a variable that is a pointer to a pointer is declared by placing an additional asterisk in front of its name
+  - two asterisks indicate that two levels of pointers are involved
 - the following declaration declares a pointer to a pointer of type int
 ```c
 int **var;
 ```
-- when a value is indirectly pointed to by a pointer to a pointer, accessing
-that value requires that the asterisk operator be applied twice
+- when a value is indirectly pointed to by a pointer to a pointer, accessing that value requires that the asterisk operator be applied twice
 ```c
 int x = **var;
 ```
@@ -74,8 +69,8 @@ ipp = &ip1;
 ```
 ![alt text](image-3.png)
 - we have changed the pointer pointed to by ipp (that is, `ip1`) to contain a copy of `ip2`
-- `ip1` now points at `j`
-- If we now change ipp
+  - `ip1` now points at `j`
+- If we now change `ipp`
 ```c
 *ipp = &k;
 ```
