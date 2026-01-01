@@ -1,4 +1,4 @@
-# Section 15: Advanced Debugging, Analysis, and Compiler Opotions
+# Section 16: Advanced Pointers
 
 ## Topic: Double pointer (pointer to pointer)
 
