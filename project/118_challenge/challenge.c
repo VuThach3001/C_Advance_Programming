@@ -41,9 +41,10 @@ int div (int a, int b) { return a / b; }
 
 /// Array of pointers to functions
 // INSERT YOUR FUNCTION POINTER INITIALIZATION HERE = { &add,&sub,&mult,&div };
+int (*fpArr[]) (int, int) = { &add, &sub, &mult, &div };
 
 // performs the given operation on elements of the arrays
-int* performOp (int* a, int* b, int size, /* ADD FUNCTION POINTER PARAMETER HERE */);
+int* performOp (int* a, int* b, int size, int (*f) (int, int));
 
 // displays the elements of an array
 void display (int* x, int size);
@@ -83,7 +84,7 @@ int main ()
 
         int j = choice - 1;
 
-        result = performOp (array1, array2, size, /* PASS IN FUNCTION POINTER FROM ARRAY[j] */);
+        result = performOp (array1, array2, size, fpArr[j]);
 
         printf ("\n\nThe Results are ...\n");
         display (result, size);
@@ -98,11 +99,16 @@ int main ()
 
 
 // performs the given operation on all elements of the arrays A and B 
-int* performOp (int* a, int* b, int size, /* ADD FUNCTION POINTER PARAMETER HERE */)
+int* performOp (int* a, int* b, int size, int (*f)(int, int))
 {
     // INCLUDE YOUR CODE HERE
+    int* c = malloc (sizeof (int) * size);
+    for (int i = 0; i < size; i++)
+    {
+        c[i] = (f)(a[i], b[i]);
+    }
 
-    return NULL;
+    return c;
 }
 
 
@@ -110,4 +116,11 @@ int* performOp (int* a, int* b, int size, /* ADD FUNCTION POINTER PARAMETER HERE
 void display (int* x, int size)
 {
     // INCLUDE YOUR CODE HERE
+    if (x == NULL) return;
+
+    for (int i = 0; i < size; i++)
+    {
+        printf ("%d  ", x[i]);
+    }
+    printf ("\n");
 }
