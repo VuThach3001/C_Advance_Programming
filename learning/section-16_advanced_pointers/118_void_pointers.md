@@ -31,7 +31,7 @@
 void * pointer_name;
 ```
 - the size of a void pointer is similar to the size of the character pointer
-- has the same representation and alignment requirements as a pointer to a character type
+  - has the same representation and alignment requirements as a pointer to a character type
 
 **3. example**
 ```c
@@ -50,32 +50,34 @@ fp = ip; // wrong since type of fp is pointer to float
 ```
 **4. dereferencing a void pointer**
 - the data pointed to by a void pointer cannot be directly dereferenced
-- we have no type to dereference to
-- we will always have to cast the address in the void pointer to some other pointer type that points to a concrete data type before dereferencing it
-```c
-void *vp;
-int a = 100;
-vp = &a;
-printf("%d", *vp); // wrong
-```
+  - we have no type to dereference to
+  - we will always have to cast the address in the void pointer to some other pointer type that points to a concrete data type before dereferencing it
+  ```c
+  void *vp;
+  int a = 100;
+  vp = &a;
+  printf("%d", *vp); // wrong
+  ```
 - the above will not work
-- because a void pointer has no data type
-- before you dereference a void pointer it must be type casted to the appropriate pointer type
-```c
-void *vp;
-int a = 100;
-vp = &a;
-```
+  - because a void pointer has no data type
+  - before you dereference a void pointer it must be type casted to the appropriate pointer type
+  ```c
+  void *vp;
+  int a = 100;
+  vp = &a;
+  ```
 - void pointer vp is pointing to the address of integer variable a
-- vp is acting as a pointer to int or (int *)
-- the proper typecast in this case is (int*)
-(int *)vp
+  - vp is acting as a pointer to int or `(int *)`
+  - the proper typecast in this case is `(int*)`
+  ```c
+  (int *)vp
+  ```
 - the type of vp temporarily changes from void pointer to pointer to int or (int*)
-- we already know how to dereference a pointer to int, just precede it with indirection operator (*)
+  - we already know how to dereference a pointer to int, just precede it with indirection operator (*)
+```c
 *(int *)vp
-- type casting changes type of vp temporarily until the evaluation of the expression, everywhere else in the program vp is
-still a void pointer
-
+```
+- type casting changes type of vp temporarily until the evaluation of the expression, everywhere else in the program vp is still a void pointer
 
 ---
 
