@@ -1,8 +1,8 @@
 # Section 17: Static Libraries and Shard Objects
 
-## Topic: Void Pointer
+## Topic: Dynamic Library
 
-## Date: 05/01/2025
+## Date: 14/01/2025
 
 ---
 
@@ -17,62 +17,88 @@
 ### Notes Section (Main Notes)
 
 **1. Overview**
-- a static library is an archive
-  - a bunch of object files wrapped up into a single file
-  - similar to a `.zip` or a `.tar` file
-    - a file that contains other files
-- created and updated by the ar (for archive) utility
-  - a program that takes files and stores them in a bigger file without regard to compression
-- standard convention is to name static libraries
-  - `lib<something>.a`
-    - names begin with lib and end with a `.a` extension
-    - `libc.a` file contains the Standard C library
-    - `libm.a` contains mathematics functions
-- once you have an archive, you can store it in a library directory
-  - `/usr/local/lib` (system directory)
-  - `/my_lib` (your own director)
+- every program linked against this library shares the same one copy
+- contrast to static linking, in which everyone is (wastefully) given their own copy of the contents of the library
+- a dynamically linked library (shared object) is created by the link editor
+  - the name of the link editor is the command ld
+- standard convention is to name dynamic libraries
+  - `lib<something>.so` (shared object)
+    - names begin with lib and end with a `.so` extension
+    - similar to windows extension `.dll` and mac extension `.dylib`
+- you can use the ldd command on linux to list all of the shared objects for a given binary/executable
+  - `ldd name-of-executable`
 
-**2. linking to a static library (notes)**
+**2. Linking to a dynamic library (notes)**
 - the compiler expects to find the libraries in certain directories
-  - the compiler looks in a few special places such as /usr/lib/ for libraries
+  - the compiler looks in a few special places such as `/usr/lib/` for libraries
+  - threads library is in `/usr/lib/libthread.so`
 - the compiler option `-Lpathname` is used to tell the linker a list of other directories in which to search for libraries
-  - if you put your archive somewhere else, like `/my_lib`?
-- the name that follows the `-l` option needs to match part of the archive
-name
-- if your archive is called `libawesome.a`, you can compile your program
-with the `-lawesome` switch
+  - `LD_LIBRARY_PATH` and `LD_RUN_PATH` can also be used to provide this information
+  - better to use the `-Lpathname` `-Rpathname` options at linktime instead
+- the name that follows the `-l` option needs to match part of the library name
+- if your archive is called `libawesome.so`, you can compile your program with the `-lawesome` switch
 
-**3. Misc**
-- the order of the statically linked libraries on the compiler command line is significant
-  - linker is fussy about where libraries are mentioned, and in what order, since symbols are resolved looking from left to right
-- this makes a difference if the same symbol is defined differently in two different libraries
-- another problem occurs if you mention the static libraries before your own code
-  - won’t be any undefined symbols yet, so nothing will be extracted
-  - when your object file is processed by the linker, all its library references will be undefined
+**3. How to (step by step)**
 
-**4. Include header file and compile with GCC**
+- **Project Structure**
 
-- **Archive option**
-  - Using `ar` command to archive the object file when you have done the compilation process
-  ```cmd
-  gcc -c ./myLib.c -o myLib.o
-  ```
-  - After that, use archive command to convert it into `.a` file
-  ```cmd
-  ar rcs ./myLib.a ./myLib.o
-  ```
-  - Then we need to compile source code with `-I` option to add the directory to the **header file search path**
-  ```cmd
-  gcc -I ../myLib/ -c ./example.c -o example.o
-  ```
-    - With `-c` option, this is only for compile, do not link. Hence, this procuces an **object file** (`.o`) instead of executable file
+```
+project/
+├── lib/
+│ ├── libStringFunctions.so
+│ ├── StringFunctions.c
+│ ├── StringFunctions.h
+│ └── StringFunctions.o
+└── source/
+└── challenge.c
+```
 
-- **Adding static library**
-  - When the compilation process is completed, we start adding the static `.a` library by using the command:
-  ```cmd
-  gcc -o example ./example.o ../myLib/myLib.a
+- **Build the Shared Library (if not already built)**
+
+  - Compile position-independent object code
+  ```bash
+  gcc -fPIC -c lib/StringFunctions.c -o lib/StringFunctions.o
   ```
-  - Then with the executable file (e.g `example`), we can execute the program with a static library added.
+
+  - Create shared library
+  ```bash
+  gcc -shared -o lib/libStringFunctions.so lib/StringFunctions.o
+  ```
+
+**Important**: Shared library filename must start with lib for the -l linker flag to work.
+
+- **Compile and link the main program**
+```bash
+gcc source/challenge.c \
+    -Ilib \
+    -Llib \
+    -lStringFunctions \
+    -o challenge
+```
+| Flag                | MEaning                                          |
+| ------------------- | ------------------------------------------------ |
+| `-Ilib`             | Look for header files (`.h`) in the lib folder   |
+| `-Llib`             | Look for libraries (.so or .a) in the lib folder |
+| `-lStringFunctions` | Link against libStringFunctions.so               |
+| `-o challenge`      | Output executable file named challenge           |
+
+- Run the program
+
+  - Option A: Using LD_LIBRARY_PATH (quick testing)
+  ```cmd
+  LD_LIBRARY_PATH=./lib ./challenge
+  ```
+  - Option B: Using `rpath`
+    - Recompile with rpath so the executable knows where to find the library:
+  ```bash
+  gcc source/challenge.c \
+    -Ilib -Llib -lStringFunctions \
+    -Wl,-rpath,'$ORIGIN/lib' \
+    -o challenge
+  ./challenge
+  ```
+    - `$ORIGIN` = directory where the executable lives
+    - No environment variable needed
 ---
 
 ### Summary Section (Summary of Notes)
