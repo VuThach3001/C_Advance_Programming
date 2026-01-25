@@ -1,6 +1,6 @@
 # Section 17: Static Libraries and Shard Objects
 
-## Topic: Void Pointer
+## Topic: Creating a static library (archive)
 
 ## Date: 05/01/2025
 
