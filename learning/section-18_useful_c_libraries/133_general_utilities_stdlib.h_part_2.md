@@ -30,7 +30,7 @@
   - memcopy and memmove (string.h)
   - strdup and strndup (string.h)
 
-- `atoi` : converts a string to an integer
+- `atoi` : converts a string to an RQONE04965354integer
 - `atof` : converts a string to a floating-point number
 - `atol` : converts a string to a long integer
 - `strtod` : converts a string to a double
