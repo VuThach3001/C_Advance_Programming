@@ -33,8 +33,7 @@
 - a simpler way of implementing a stack is to use an array
   - no need for pointers
 - push and pop functions are implemented by using the operations available on an array
-- the only problem with this implementation is array size must be
-specified initially.
+- the only problem with this implementation is array size must be specified initially.
 - the stack cannot grow and shrink dynamically
 
 ---
