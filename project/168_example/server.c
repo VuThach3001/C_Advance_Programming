@@ -35,7 +35,7 @@ int main (int argc, char* argv[])
     struct sockaddr_in client;
     char client_message[200] = { 0 };
     char message[100] = { 0 };
-    const char* pMessage = "hello from Thach's server";
+    const char* pMessage = "hello";
 
     /* Create socket */
     socket_desc = socketCreate ();

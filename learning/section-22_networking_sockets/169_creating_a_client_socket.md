@@ -1,6 +1,6 @@
 # Section 22: Networking (Sockets)
 
-## Topic: Creating a Server Socket
+## Topic: Creating a Client Socket
 
 ## Date: 25/02/2026
 
@@ -26,15 +26,11 @@
 - receive some data over connection (receive)
 - release the connection (close)
 
-**2. Steps specifically for a server socket**
-- the steps involved in establishing a socket on the server side are as follows
+**2. Steps specifically for a client socket**
 - create a socket with the socket() system call
-- bind the socket to an address using the bind() system call
-  - for a server socket on the Internet, an address consists of a port number on the host machine
-- listen for connections with the listen() system call
-- accept a connection with the accept() system call
-  - typically blocks the connection until a client connects with the server
-- send and receive data using the read()/recv and write()/send system calls
+- connect the socket to the address of the server using the connect() system call
+- send and receive data
+  - there are a number of ways to do this, but the simplest way is to use the read()/recv and write()/send system calls
 
 **3. Illustration**
 
@@ -42,17 +38,13 @@
 
 ![alt text](image-2.png)
 
-**4. simple server steps (pseudocode)**
+**4. simple client steps (pseudocode)**
 ```
 my_sd = socket( )
-bind( my_sd, <local address, mainly a port number> )
-listen( my_sd )
-start loop
-his_sd = accept( my_sd, <empty adlearning/section-22_networking_sockets/168_creating_a_server_socket.mdress to be filled in with his incoming info> )
-recv( his_sd, <where to put what you receive> )
+his_sd = connect( my_sd, <presumed adderss of some server> )
 send( his_sd, <the stuff you want sent> )
+recv( his_sd, <where to put what you receive> )
 close( my_sd )
-end loop
 ```
 
 ---
