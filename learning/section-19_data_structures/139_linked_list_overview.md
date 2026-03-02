@@ -42,6 +42,13 @@
 - linked lists work like an array that can grow and shrink as needed, from any point in the array
 - linked lists are accessed via a pointer to the first node of the list
 - the link pointer in the last node of a list is set to NULL to mark the end of the list
+- Self-referential structures: a structure that contains a pointer to another structure of the same type
+```c
+struct Node {
+    int data;
+    struct Node* next;
+};
+```
 
 **3. Links/Nodes**
 - each node contains the following
