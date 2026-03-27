@@ -40,31 +40,20 @@ int main (void)
 
 int lengthOfLongestSubstring (char* s)
 {
-    /* Stores the next valid left boundary for each ASCII character (0 = never seen) */
     int charIndex[128] = { 0 };
-
-    int maxLen = 0; /* Length of the longest unique-character window found so far */
-    int left = 0; /* Left boundary of the current sliding window */
-
-    /* Expand the window one character at a time with 'right' */
+    int left = 0;
+    int maxLength = 0;
     for (int right = 0; s[right] != '\0'; right++)
     {
-        /* If the character was seen inside the current window, move left to be the same index as right to reset */
         if (charIndex[(int)s[right]] > left)
         {
             left = charIndex[(int)s[right]];
         }
-
-        /* Record that s[right] was last seen at index 'right'; next valid left = right+1 */
-        charIndex[(int)s[right]] = right + 1;
-
-        /* Update the maximum window length */
-        int currentLen = right - left + 1;
-        if (currentLen > maxLen)
+        charIndex[(int)s[right]] = right + 1; // store index+1 to differentiate from default 0
+        if (right - left + 1 > maxLength)
         {
-            maxLen = currentLen;
+            maxLength = right - left + 1;
         }
     }
-
-    return maxLen;
+    return maxLength;
 }

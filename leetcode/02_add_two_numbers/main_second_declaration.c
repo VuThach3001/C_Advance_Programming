@@ -105,33 +105,23 @@ void freeList (ListNode_t head)
 
 ListNode_t addTwoNumbers (ListNode_t l1, ListNode_t l2)
 {
-    /* Create a dummyHead and provide a size for the new node */
     ListNode_t dummyHead = (ListNode_t)malloc (sizeof (Node_t));
-    /* Initialize the current pointer */
     ListNode_t current = dummyHead;
-    /* Declare a carrier to hold the sum */
     int carry = 0;
-    // Traverse both lists
     while (l1 != NULL || l2 != NULL)
     {
-        /* Get the current values */
         int x = (l1 != NULL) ? l1->data : 0;
         int y = (l2 != NULL) ? l2->data : 0;
-        /* Aggregate the sum */
         int sum = carry + x + y;
-        /* Update the carry for next iteration */
         carry = sum / 10;
-        /* Allocate memory for the next node */
-        current->nextPtr = (ListNode_t)malloc (sizeof (Node_t));
-        /* Move the current pointer to the next node */
-        current = current->nextPtr;
-        /* Set the data for the current node */
-        current->data = sum % 10;
 
-        /* The last node of a list is set to NULL to mark the end of the list */
-        current->nextPtr = NULL;
+        current->nextPtr = (ListNode_t)malloc (sizeof (Node_t));
+
+        current = current->nextPtr;
+        current->data = sum % 10;
         if (l1 != NULL) l1 = l1->nextPtr;
         if (l2 != NULL) l2 = l2->nextPtr;
+        // current->nextPtr = NULL;
     }
     if (carry > 0)
     {
@@ -140,5 +130,8 @@ ListNode_t addTwoNumbers (ListNode_t l1, ListNode_t l2)
         current->data = carry;
         current->nextPtr = NULL;
     }
-    return dummyHead->nextPtr;
+
+    ListNode_t result = dummyHead->nextPtr;
+    free (dummyHead);
+    return result;
 }
