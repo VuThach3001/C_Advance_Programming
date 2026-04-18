@@ -12,9 +12,10 @@
  *
  * 2. Use an array P where P[i] = radius of palindrome centered at i
  *
- * 3. Keep track of the rightmost boundary (right) and the center of that palindrome (center)
- *    Let left = 2*center - right. If i is within [left, right],
- *    P[i] can be initialized using P[mirror_i], where mirror_i = 2*center - i
+ * 3. Keep track of the rightmost boundary (right) and the center of that
+ * palindrome (center) Let left = 2*center - right. If i is within [left,
+ * right], P[i] can be initialized using P[mirror_i], where mirror_i = 2*center
+ * - i
  *
  * Time: O(n), Space: O(n)
  *
@@ -73,20 +74,20 @@
  *   P[i] starts from min(right - i, P[mirror_i])
  * Then expand around i while both sides match.
  */
-char* longestPalindrome (char* s)
+char *longestPalindrome(char *s)
 {
-    if (s == NULL || strlen (s) == 0)
+    if (s == NULL || strlen(s) == 0)
     {
-        char* result = (char*)malloc (1);
+        char *result = (char *)malloc(1);
         result[0] = '\0';
         return result;
     }
 
-    int n = strlen (s);
+    int n = strlen(s);
 
     // Create preprocessed string with '#' separators
     // Length will be 2*n + 3 (for leading/trailing '#' and null terminator)
-    char* processed = (char*)malloc (2 * n + 3);
+    char *processed = (char *)malloc(2 * n + 3);
     processed[0] = '#';
 
     for (int i = 0; i < n; i++)
@@ -98,11 +99,11 @@ char* longestPalindrome (char* s)
     processed[processed_len] = '\0';
 
     // P[i] = radius of palindrome centered at i
-    int* P = (int*)malloc (processed_len * sizeof (int));
-    memset (P, 0, processed_len * sizeof (int));
+    int *P = (int *)malloc(processed_len * sizeof(int));
+    memset(P, 0, processed_len * sizeof(int));
 
-    int center = 0;  // Center of the rightmost palindrome
-    int right = 0;   // Right boundary of the rightmost palindrome
+    int center = 0; // Center of the rightmost palindrome
+    int right = 0;  // Right boundary of the rightmost palindrome
     int max_len = 0;
     int center_index = 0;
 
@@ -111,21 +112,22 @@ char* longestPalindrome (char* s)
         // Mirror of i with respect to center
         int mirror = 2 * center - i;
 
-        // If i is within the right boundary, we can use previously computed values
+        // If i is within the right boundary, we can use previously computed
+        // values
         if (i < right)
         {
             P[i] = (right - i < P[mirror]) ? (right - i) : P[mirror];
         }
 
         // Try to expand palindrome centered at i
-        while (i + P[i] + 1 < processed_len &&
-               i - P[i] - 1 >= 0 &&
+        while (i + P[i] + 1 < processed_len && i - P[i] - 1 >= 0 &&
                processed[i + P[i] + 1] == processed[i - P[i] - 1])
         {
             P[i]++;
         }
 
-        // If palindrome centered at i extends past right, update center and right
+        // If palindrome centered at i extends past right, update center and
+        // right
         if (i + P[i] > right)
         {
             center = i;
@@ -144,75 +146,75 @@ char* longestPalindrome (char* s)
     // Starting position in original string = (center_index - max_len) / 2
     // Length = max_len
     int start = (center_index - max_len) / 2;
-    char* result = (char*)malloc (max_len + 1);
-    strncpy (result, s + start, max_len);
+    char *result = (char *)malloc(max_len + 1);
+    strncpy(result, s + start, max_len);
     result[max_len] = '\0';
 
-    free (processed);
-    free (P);
+    free(processed);
+    free(P);
 
     return result;
 }
 
 // Visualize center, right boundary, and current index on processed string.
-void printCenterVisualization (char* processed, int processed_len, int center, int right,
-                               int current)
+void printCenterVisualization(char *processed, int processed_len, int center,
+                              int right, int current)
 {
     int left = 2 * center - right;
     if (left < 0)
         left = 0;
 
-    printf ("    Processed: ");
+    printf("    Processed: ");
     for (int i = 0; i < processed_len; i++)
-        printf ("%c ", processed[i]);
-    printf ("\n");
+        printf("%c ", processed[i]);
+    printf("\n");
 
-    printf ("    Index:     ");
+    printf("    Index:     ");
     for (int i = 0; i < processed_len; i++)
-        printf ("%2d ", i);
-    printf ("\n");
+        printf("%2d ", i);
+    printf("\n");
 
-    printf ("    Center:    ");
+    printf("    Center:    ");
     for (int i = 0; i < processed_len; i++)
-        printf (i == center ? "^ " : "  ");
-    printf ("\n");
+        printf(i == center ? "^ " : "  ");
+    printf("\n");
 
-    printf ("    Current:   ");
+    printf("    Current:   ");
     for (int i = 0; i < processed_len; i++)
-        printf (i == current ? "^ " : "  ");
-    printf ("\n");
+        printf(i == current ? "^ " : "  ");
+    printf("\n");
 
-    printf ("    Right:     ");
+    printf("    Right:     ");
     for (int i = 0; i < processed_len; i++)
-        printf (i == right ? "^ " : "  ");
-    printf ("\n");
+        printf(i == right ? "^ " : "  ");
+    printf("\n");
 
-    printf ("    Active window: [%d..%d]\n", left, right);
+    printf("    Active window: [%d..%d]\n", left, right);
 }
 
 // Debug version with detailed step-by-step visualization
-void debugManacher (char* s)
+void debugManacher(char *s)
 {
-    printf ("====== DETAILED WALKTHROUGH: \"%s\" ======\n\n", s);
+    printf("====== DETAILED WALKTHROUGH: \"%s\" ======\n\n", s);
 
-    if (s == NULL || strlen (s) == 0)
+    if (s == NULL || strlen(s) == 0)
     {
-        printf ("Empty string - result: \"\"\n\n");
+        printf("Empty string - result: \"\"\n\n");
         return;
     }
 
-    int n = strlen (s);
+    int n = strlen(s);
 
     // Step 1: Preprocessing
-    printf ("STEP 1: PREPROCESSING\n");
-    printf ("Original:  ");
+    printf("STEP 1: PREPROCESSING\n");
+    printf("Original:  ");
     for (int i = 0; i < n; i++)
-        printf ("%c ", s[i]);
-    printf ("\nIndex:     ");
+        printf("%c ", s[i]);
+    printf("\nIndex:     ");
     for (int i = 0; i < n; i++)
-        printf ("%d ", i);
+        printf("%d ", i);
 
-    char* processed = (char*)malloc (2 * n + 3);
+    char *processed = (char *)malloc(2 * n + 3);
     processed[0] = '#';
     for (int i = 0; i < n; i++)
     {
@@ -222,45 +224,45 @@ void debugManacher (char* s)
     int processed_len = 2 * n + 1;
     processed[processed_len] = '\0';
 
-    printf ("\n\nProcessed: ");
+    printf("\n\nProcessed: ");
     for (int i = 0; i < processed_len; i++)
-        printf ("%c ", processed[i]);
-    printf ("\nIndex:     ");
+        printf("%c ", processed[i]);
+    printf("\nIndex:     ");
     for (int i = 0; i < processed_len; i++)
-        printf ("%2d ", i);
-    printf ("\nLength = 2*%d + 1 = %d\n\n", n, processed_len);
+        printf("%2d ", i);
+    printf("\nLength = 2*%d + 1 = %d\n\n", n, processed_len);
 
     // Step 2: Build P array with visualization
-    printf ("STEP 2: BUILD P ARRAY (radius at each center)\n\n");
+    printf("STEP 2: BUILD P ARRAY (radius at each center)\n\n");
 
-    int* P = (int*)malloc (processed_len * sizeof (int));
-    memset (P, 0, processed_len * sizeof (int));
+    int *P = (int *)malloc(processed_len * sizeof(int));
+    memset(P, 0, processed_len * sizeof(int));
 
     int center = 0;
     int right = 0;
     int max_len = 0;
     int center_index = 0;
 
-    printf ("Legend: Center='^' on Center row, current i='^' on Current row, right boundary='^' on Right row\n\n");
+    printf("Legend: Center='^' on Center row, current i='^' on Current row, "
+           "right boundary='^' on Right row\n\n");
 
     for (int i = 1; i < processed_len; i++)
     {
-        printCenterVisualization (processed, processed_len, center, right, i);
+        printCenterVisualization(processed, processed_len, center, right, i);
 
         int mirror = 2 * center - i;
 
-        printf ("i=%2d (char '%c'): ", i, processed[i]);
+        printf("i=%2d (char '%c'): ", i, processed[i]);
 
         if (i < right)
         {
             P[i] = (right - i < P[mirror]) ? (right - i) : P[mirror];
-            printf ("mirror_i=%d, P[mirror]=%d, right-i=%d -> P[i]=%d initially",
-                    mirror, P[mirror], right - i, P[i]);
+            printf("mirror_i=%d, P[mirror]=%d, right-i=%d -> P[i]=%d initially",
+                   mirror, P[mirror], right - i, P[i]);
         }
 
         int expanded = 0;
-        while (i + P[i] + 1 < processed_len &&
-               i - P[i] - 1 >= 0 &&
+        while (i + P[i] + 1 < processed_len && i - P[i] - 1 >= 0 &&
                processed[i + P[i] + 1] == processed[i - P[i] - 1])
         {
             P[i]++;
@@ -268,69 +270,67 @@ void debugManacher (char* s)
         }
 
         if (expanded || (i >= right))
-            printf (" -> expanded to P[i]=%d", P[i]);
+            printf(" -> expanded to P[i]=%d", P[i]);
 
         if (i + P[i] > right)
         {
             center = i;
             right = i + P[i];
-            printf (" | NEW: center=%d, right=%d", center, right);
+            printf(" | NEW: center=%d, right=%d", center, right);
         }
 
         if (P[i] > max_len)
         {
             max_len = P[i];
             center_index = i;
-            printf (" | NEW MAX!");
+            printf(" | NEW MAX!");
         }
-        printf ("\n\n");
+        printf("\n\n");
     }
 
     // Step 3: Show P array
-    printf ("\nP array: ");
+    printf("\nP array: ");
     for (int i = 0; i < processed_len; i++)
-        printf ("%2d ", P[i]);
-    printf ("\n\n");
+        printf("%2d ", P[i]);
+    printf("\n\n");
 
     // Step 4: Extract result
-    printf ("STEP 3: EXTRACT RESULT\n");
-    printf ("Max length found: %d at center index %d\n", max_len, center_index);
-    printf ("Start position = (center_index - max_len) / 2\n");
-    printf ("              = (%d - %d) / 2\n", center_index, max_len);
-    printf ("              = %d / 2\n", center_index - max_len);
+    printf("STEP 3: EXTRACT RESULT\n");
+    printf("Max length found: %d at center index %d\n", max_len, center_index);
+    printf("Start position = (center_index - max_len) / 2\n");
+    printf("              = (%d - %d) / 2\n", center_index, max_len);
+    printf("              = %d / 2\n", center_index - max_len);
 
     int start = (center_index - max_len) / 2;
-    printf ("              = %d\n\n", start);
+    printf("              = %d\n\n", start);
 
-    char* result = (char*)malloc (max_len + 1);
-    strncpy (result, s + start, max_len);
+    char *result = (char *)malloc(max_len + 1);
+    strncpy(result, s + start, max_len);
     result[max_len] = '\0';
 
-    printf ("Result: \"%s\"\n\n", result);
+    printf("Result: \"%s\"\n\n", result);
 
-    free (processed);
-    free (P);
-    free (result);
+    free(processed);
+    free(P);
+    free(result);
 }
 
-
-
 // Test function
-void test (char* input, char* expected)
+void test(char *input, char *expected)
 {
-    char* result = longestPalindrome (input);
+    char *result = longestPalindrome(input);
 
-    printf ("Input: \"%s\"\n", input);
-    printf ("Expected: \"%s\"\n", expected);
-    printf ("Got: \"%s\"\n", result);
+    printf("Input: \"%s\"\n", input);
+    printf("Expected: \"%s\"\n", expected);
+    printf("Got: \"%s\"\n", result);
 
     // For palindromes of same length, they're both valid
     int result_valid = 0;
-    if (strlen (result) == strlen (expected))
+    if (strlen(result) == strlen(expected))
     {
         // Check if result is a palindrome
         int is_palindrome = 1;
-        int len = strlen (result);
+        int len = strlen(result);
         for (int i = 0; i < len / 2; i++)
         {
             if (result[i] != result[len - 1 - i])
@@ -341,71 +341,71 @@ void test (char* input, char* expected)
         }
 
         // Check if result exists in input
-        if (is_palindrome && strstr (input, result) != NULL)
+        if (is_palindrome && strstr(input, result) != NULL)
         {
             result_valid = 1;
         }
     }
 
-    printf ("Status: %s\n\n", result_valid ? "✓ PASS" : "✗ FAIL");
-    free (result);
+    printf("Status: %s\n\n", result_valid ? "✓ PASS" : "✗ FAIL");
+    free(result);
 }
 
-int main (void)
+int main(void)
 {
-    printf ("=== STEP-BY-STEP VISUALIZATION ===\n\n");
+    printf("=== STEP-BY-STEP VISUALIZATION ===\n\n");
 
     // Show detailed walkthrough for a few examples
-    debugManacher ("racecar");
-    debugManacher ("babad");
-    debugManacher ("cbbd");
+    debugManacher("racecar");
+    debugManacher("babad");
+    debugManacher("cbbd");
 
-    printf ("\n\n=== ALL TEST CASES ===\n\n");
+    printf("\n\n=== ALL TEST CASES ===\n\n");
 
     // Test Case 1: Two palindromes of same length
-    test ("babad", "bab");  // or "aba"
+    test("babad", "bab"); // or "aba"
 
     // Test Case 2: Even length palindrome
-    test ("cbbd", "bb");
+    test("cbbd", "bb");
 
     // Test Case 3: Single character
-    test ("a", "a");
+    test("a", "a");
 
     // Test Case 4: Single character (empty)
-    test ("ac", "a");  // or "c"
+    test("ac", "a"); // or "c"
 
     // Test Case 5: Entire string is palindrome
-    test ("racecar", "racecar");
+    test("racecar", "racecar");
 
     // Test Case 6: Entire string is palindrome (even length)
-    test ("abba", "abba");
+    test("abba", "abba");
 
     // Test Case 7: No palindrome of length > 1
-    test ("abcdef", "a");  // or any single char
+    test("abcdef", "a"); // or any single char
 
     // Test Case 8: Palindrome at beginning
-    test ("abaXYZ", "aba");
+    test("abaXYZ", "aba");
 
     // Test Case 9: Palindrome at end
-    test ("XYZaba", "aba");
+    test("XYZaba", "aba");
 
     // Test Case 10: Long palindrome
-    test ("forgeeksskeegfor", "geeksskeeg");
+    test("forgeeksskeegfor", "geeksskeeg");
 
     // Test Case 11: Nested palindromes
-    test ("abacabad", "abacaba");
+    test("abacabad", "abacaba");
 
     // Test Case 12: Empty string
-    test ("", "");
+    test("", "");
 
     // Test Case 13: Many repeating characters
-    test ("aaaa", "aaaa");
+    test("aaaa", "aaaa");
 
     // Test Case 14: Mixed case
-    test ("A man a plan a canal Panama", " a");  // spaces matter
+    test("A man a plan a canal Panama", " a"); // spaces matter
 
     // Test Case 15: Special characters
-    test ("a@b@a", "a@b@a");
+    test("a@b@a", "a@b@a");
 
     return 0;
 }

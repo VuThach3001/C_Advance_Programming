@@ -4,5 +4,13 @@
         "date.h": "c",
         "stdio.h": "c"
     },
-    "cmake.sourceDirectory": "/home/thach/Desktop/workspace/C_Advance_Programming/project/23_example"
+    "cmake.sourceDirectory": "/home/thach/Desktop/workspace/C_Advance_Programming/project/23_example",
+    "editor.formatOnSave": true,
+    "clang-format.executable": "/usr/bin/clang-format-18",
+    "[c]": {
+        "editor.formatOnType": true
+    },
+    "[cpp]": {
+        "editor.formatOnType": true
+    }
 }
