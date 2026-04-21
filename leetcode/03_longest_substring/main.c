@@ -42,20 +42,26 @@ int main(void)
 
 int lengthOfLongestSubstring(char *s)
 {
+    /* Create a sliding window */
     int charIndex[128] = {0};
     int left = 0;
     int maxLength = 0;
-    for (int right = 0; s[right] != '\0'; right++)
+    int right = 0;
+    while (s[right] != '\0')
     {
+
         if (charIndex[(int)s[right]] > left)
         {
             left = charIndex[(int)s[right]];
         }
-        /* Should keep the index of right  */
         charIndex[(int)s[right]] = right + 1;
+
+        int currentLen = right - left + 1;
+        if (currentLen > maxLength)
+        {
+            maxLength = currentLen;
+        }
+        right++;
     }
-
-    int charIndex[128] = {0};
-
     return maxLength;
 }
