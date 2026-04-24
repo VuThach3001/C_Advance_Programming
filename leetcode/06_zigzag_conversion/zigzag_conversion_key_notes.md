@@ -27,15 +27,15 @@ cycle = 2 * numRows - 2
 
 ##### Row-wise Index Pattern
 - For each row r:
-  - **Vertical elements**:
+- **Vertical elements**:
 ```c
 for (int j = r; j < len; j += cycle)
 ```
-##### Diagonal elements (only for middle rows)
+  - **Diagonal elements** (only for middle rows)
 ```c
 diag = j + cycle - 2*r
 ```
-  - Condition:
+  - **Condition**:
 ```c
 if (r != 0 && r != numRows - 1 && diag < len)
 ```
@@ -50,18 +50,32 @@ if (r != 0 && r != numRows - 1 && diag < len)
 - **Top row `(r = 0)`**
   - Only appears once per cycle
   - No diagonal elements
+  - This equals the next vertical element
+    - causes duplicate
 ```c
 diag = j + cycle
 ```
-  - This equals the next vertical element
--> causes duplicate
 - **Bottom row `(r = numRows - 1)`**
   - Also appears once per cycle
   - No diagonal elements
+    - same index → duplicate
 ```c
 diag = j
 ```
-  -> same index → duplicate
+
+##### What “Duplicate” Means
+- Duplicate = inserting the same character twice
+- Example (row 0):
+  - 6 and 12 appear twice → incorrect result
+```
+Vertical: 0, 6, 12
+Diagonal:    6, 12
+```
+
+##### Final Rule
+```
+if (r != 0 && r != numRows - 1)
+```
 
 ##### Full Optimal Solution:
 ```c
@@ -111,8 +125,18 @@ pos == len
 - No duplicates
 - No missing elements
 
+#### Time Complexity
+- O(n) where n is the length of the input string `s`
+- At first glance, it looks like nested loops → O(n²). But that’s misleading.
+  - **Key Insight:** Each character is processed once
+#### Space Complexity
+- O(n) for the output string `result`
+- O(1) additional space for variables
+
 ---
 
 ### Summary Section (Summary of Notes)
 
-[Insert a brief summary of the key ideas and takeaways]
+- The zigzag conversion can be efficiently implemented by iterating row by row and calculating indices using a cycle length.
+- Middle rows have both vertical and diagonal elements, while the top and bottom rows only have vertical elements.
+- The algorithm has a time complexity of O(n) and a space complexity of O(n) for the output string, with O(1) additional space for variables.
