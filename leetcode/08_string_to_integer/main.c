@@ -5,13 +5,14 @@
 
 int myAtoi(const char *s)
 {
-    // return signed 32bit integer
     int i = 0;
-
     // 1. Skip whitespace
     while (s[i] == ' ')
         i++;
+
     // 2. Handle sign
+    //  2.1 Check if it is negative (-) -> sign = -1
+    //  2.2 Skipp sign char
     int sign = 1;
     if (s[i] == '+' || s[i] == '-')
     {
@@ -23,11 +24,12 @@ int myAtoi(const char *s)
     // 3. Process digits
     while (isdigit(s[i]))
     {
-        int digit = s[i] - '0';
-
-        // 4. Overflow check
+        int digit = s[i] - '0'; // Ex: s[i] = 'c' - '0' = 53 - 48 = 5;
+        // 4. Overflow check -> Rounding
         if (result > INT_MAX / 10 || (result == INT_MAX / 10 && digit > 7))
+        {
             return sign == 1 ? INT_MAX : INT_MIN;
+        }
         result = result * 10 + digit;
         i++;
     }
