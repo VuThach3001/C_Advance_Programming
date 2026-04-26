@@ -45,15 +45,18 @@ Constraints:
 
 bool isPalindrome(int x)
 {
-    int org = x;
-    int rev = 0;
+    // Check for the first
+    if (x < 0 || (x % 10 == 0 && x != 0))
+        return false;
 
-    while (x > 0)
+    int rev = 0;
+    while (x > rev)
     {
-        rev = rev * 10 + x % 10;
+        int pop = x % 10;
         x /= 10;
+        rev = rev * 10 + pop;
     }
-    return org == rev;
+    return (x == rev) || (x == (rev / 10));
 }
 
 int main(void)
